@@ -1,5 +1,26 @@
 <?php
 require_once './db.inc.php';
+/**
+ * 執行 SQL 語法,取得 items 資料表總筆數,並回傳,建立 PDOstatment 物件
+ * 查詢結果,取得第一筆資料(索引為 0),資料表總筆數
+ */
+$total =  $pdo->query("SELECT COUNT(eventId) AS `count` FROM `event`")->fetchAll()[0]['count'];
+
+// 每頁幾筆
+$numPerPage = 4;
+
+// 總頁數,ceil()為無條件進位
+$totalPages = ceil($total / $numPerPage);
+
+// 目前第幾頁
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
+// 若 page 小於 1,則回傳 1
+$page = $page < 1 ? 1 : $page;
+$page = $page > $totalPages ? $totalPages : $page;
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -22,8 +43,8 @@ require_once './db.inc.php';
     <!-- navbar-->
     <header class="header bg-white">
       <div class="container px-0 px-lg-3">
-        <nav class="navbar navbar-expand-lg navbar-light py-3 px-lg-0"><a class="navbar-brand" href="index.html"><span class="font-weight-bold text-uppercase text-dark">ARTITIED</span></a>
-          <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <nav class="navbar navbar-expand-lg navbar-light py-3 px-lg-0"><a class="navbar-brand" href="index.php"><span class="font-weight-bold text-uppercase text-dark">ARTITIED</span></a>
+          
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
               <li class="nav-item">
@@ -43,45 +64,7 @@ require_once './db.inc.php';
         </nav>
       </div>
     </header>
-    <!--  Modal -->
-    <div class="modal fade" id="productView" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-body p-0">
-            <div class="row align-items-stretch">
-              <div class="col-lg-6 p-lg-0"><a class="product-view d-block h-100 bg-cover bg-center" style="background: url(img/product-5.jpg)" href="img/product-5.jpg" data-lightbox="productview" title="Red digital smartwatch"></a><a class="d-none" href="img/product-5-alt-1.jpg" title="Red digital smartwatch" data-lightbox="productview"></a><a class="d-none" href="img/product-5-alt-2.jpg" title="Red digital smartwatch" data-lightbox="productview"></a></div>
-              <div class="col-lg-6">
-                <button class="close p-4" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <div class="p-5 my-md-4">
-                  <ul class="list-inline mb-2">
-                    <li class="list-inline-item m-0"><i class="fas fa-star small text-warning"></i></li>
-                    <li class="list-inline-item m-0"><i class="fas fa-star small text-warning"></i></li>
-                    <li class="list-inline-item m-0"><i class="fas fa-star small text-warning"></i></li>
-                    <li class="list-inline-item m-0"><i class="fas fa-star small text-warning"></i></li>
-                    <li class="list-inline-item m-0"><i class="fas fa-star small text-warning"></i></li>
-                  </ul>
-                  <h2 class="h4">Red digital smartwatch</h2>
-                  <p class="text-muted">$250</p>
-                  <p class="text-small mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ut ullamcorper leo, eget euismod orci. Cum sociis natoque penatibus et magnis dis parturient montes nascetur ridiculus mus. Vestibulum ultricies aliquam convallis.</p>
-                  <div class="row align-items-stretch mb-4">
-                    <div class="col-sm-7 pr-sm-0">
-                      <div class="border d-flex align-items-center justify-content-between py-1 px-3"><span class="small text-uppercase text-gray mr-4 no-select">Quantity</span>
-                        <div class="quantity">
-                          <button class="dec-btn p-0"><i class="fas fa-caret-left"></i></button>
-                          <input class="form-control border-0 shadow-0 p-0" type="text" value="1">
-                          <button class="inc-btn p-0"><i class="fas fa-caret-right"></i></button>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-sm-5 pl-sm-0"><a class="btn btn-dark btn-sm btn-block h-100 d-flex align-items-center justify-content-center px-0" href="cart.html">Add to cart</a></div>
-                  </div><a class="btn btn-link text-dark p-0" href="#"><i class="far fa-heart mr-2"></i>Add to wish list</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <?php require_once './template/modal.php'; ?>
     <!-- HERO SECTION-->
     <div class="container">
       <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
@@ -112,33 +95,65 @@ require_once './db.inc.php';
         </a>
       </div>
     </div>
+    <span id="EventList"></span>
     <!-- CATEGORIES SECTION-->
     <section class="py-5">
       <header class="text-center">
         <p class="small text-muted small text-uppercase mb-1">一同與藝術，共襄盛舉</p>
         <h2 class="h5 text-uppercase mb-4">活動清單</h2>
       </header>
+
+
+
+
       <!-- 測試區 -->
       <div class="row">
         <?php
         // SQL 敘述
         $sql = "SELECT `id`, `eventName`, `eventDescription`, `eventPrice`, `eventImg`,`eventId`
-                    FROM `event` 
-                    ORDER BY `id` ASC";
+                FROM `event` 
+                ORDER BY `id` ASC
+                LIMIT ?, ? ";
+        // 設定繫結值
+        $arrParam = [($page - 1) * $numPerPage, $numPerPage];
 
-        $stmt = $pdo->query($sql);
+        // 查詢分頁後的商品資料
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute($arrParam);
 
         if ($stmt->rowCount() > 0) {
           $arr = $stmt->fetchAll();
           for ($i = 0; $i < count($arr); $i++) {
         ?>
-            <div class="col-md-6 mb-4 mb-md-0 py-3 px-5"><a class="category-item" href="./eventDetail.php?itemId=<?php echo $arr[$i]['eventId'] ?>"><img class="img-fluid" src="./images/<?php echo $arr[$i]['eventImg'] ?>" alt=""><strong><?php echo $arr[$i]['eventName'] ?><a class="text-muted font-weight-normal" href="./edit.php?id=<?php echo $arr[$i]['id']; ?>">編輯 |</a><a class="text-muted font-weight-normal" href="./delete.php?id=<?php echo $arr[$i]['id']; ?>"> 刪除</a></strong></a></div>
+            <div class="col-md-6 mb-4 mb-md-0 py-3 px-5"><span class="category-item" href="./eventDetail.php?itemId=<?php echo $arr[$i]['eventId'] ?>"><img class="img-fluid" src="./images/<?php echo $arr[$i]['eventImg'] ?>" alt=""><strong><?php echo $arr[$i]['eventName'] ?></strong></span></div>
         <?php
           }
         }
         ?>
       </div>
       <!-- 測試區 -->
+
+      <!-- 分頁切換 -->
+
+      <nav class="mb-5" aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <li class="page-item">
+            <a class="page-link" href="?page=<?php echo (int)$_GET['page'] - 1 ?> #EventList" tabindex="-1">Previous</a>
+            <?php for ($i = 1; $i <= $totalPages; $i++) { ?>
+          <li class="page-item">
+            <a class="page-link" href="?page=<?php echo $i ?> #EventList">
+              <?php echo $i ?>
+            </a>
+          </li>
+        <?php } ?>
+        <a class="page-link" href="?page=<?php echo (int)$_GET['page'] + 1 ?> #EventList">Next</a>
+        </li>
+        </ul>
+      </nav>
+
+      <!-- 分頁切換 -->
+
+
       <?php require_once './template/footer.php'; ?>
       <!-- JavaScript files-->
       <script src="vendor/jquery/jquery.min.js"></script>

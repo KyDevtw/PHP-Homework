@@ -1,6 +1,24 @@
 <?php
 require_once './checkSession.php';
 require_once('./db.inc.php');
+/**
+ * 執行 SQL 語法,取得 items 資料表總筆數,並回傳,建立 PDOstatment 物件
+ * 查詢結果,取得第一筆資料(索引為 0),資料表總筆數
+ */
+$total =  $pdo->query("SELECT COUNT(eventId) AS `count` FROM `event`")->fetchAll()[0]['count'];
+
+// 每頁幾筆
+$numPerPage = 4;
+
+// 總頁數,ceil()為無條件進位
+$totalPages = ceil($total / $numPerPage);
+
+// 目前第幾頁
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
+// 若 page 小於 1,則回傳 1
+$page = $page < 1 ? 1 : $page;
+$page = $page > $totalPages ? $totalPages : $page;
 ?>
 
 <!DOCTYPE html>
@@ -20,11 +38,11 @@ require_once('./db.inc.php');
 
 <body>
     <div class="page-holder">
-        <?php 
-        require_once './template/navbar.php'; 
+        <?php
+        require_once './template/navbar.php';
         require_once './template/modal.php';
         ?>
-        
+
         <!-- HERO SECTION-->
         <div class="container">
             <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
@@ -55,21 +73,28 @@ require_once('./db.inc.php');
                 </a>
             </div>
         </div>
+        <span id="EventList"></span>
         <!-- CATEGORIES SECTION-->
         <section class="py-5">
             <header class="text-center">
                 <p class="small text-muted small text-uppercase mb-1">一同與藝術，共襄盛舉</p>
                 <h2 class="h5 text-uppercase mb-4">活動清單</h2>
             </header>
-            <!-- 測試區 -->
+            <!-- 展覽卡片 -->
             <div class="row">
                 <?php
                 // SQL 敘述
                 $sql = "SELECT `id`, `eventName`, `eventDescription`, `eventPrice`, `eventImg`,`eventId`
                     FROM `event` 
-                    ORDER BY `id` ASC";
+                    ORDER BY `id` ASC
+                    LIMIT ?, ? ";
 
-                $stmt = $pdo->query($sql);
+                // 設定繫結值
+                $arrParam = [($page - 1) * $numPerPage, $numPerPage];
+
+                // 查詢分頁後的商品資料
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute($arrParam);
 
                 if ($stmt->rowCount() > 0) {
                     $arr = $stmt->fetchAll();
@@ -81,7 +106,30 @@ require_once('./db.inc.php');
                 }
                 ?>
             </div>
-            <!-- 測試區 -->
+            <!-- 展覽卡片 -->
+
+
+            <!-- 分頁切換 -->
+
+            <nav class="mb-5" aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<?php echo (int)$_GET['page'] - 1 ?> #EventList" tabindex="-1">Previous</a>
+                        <?php for ($i = 1; $i <= $totalPages; $i++) { ?>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<?php echo $i ?> #EventList">
+                            <?php echo $i ?>
+                        </a>
+                    </li>
+                <?php } ?>
+                <a class="page-link" href="?page=<?php echo (int)$_GET['page'] + 1 ?> #EventList">Next</a>
+                </li>
+                </ul>
+            </nav>
+
+            <!-- 分頁切換 -->
+
+
             <?php require_once './template/footer.php'; ?>
             <!-- JavaScript files-->
             <script src="vendor/jquery/jquery.min.js"></script>
@@ -116,6 +164,7 @@ require_once('./db.inc.php');
                 // pls don't forget to change to your domain :)
                 injectSvgSprite('https://bootstraptemple.com/files/icons/orion-svg-sprite.svg');
             </script>
+            <?php require_once './template/delayeffect.php'; ?>
             <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     </div>
