@@ -6,7 +6,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <!-- Link--><a class="nav-link active" href="index.html">商品列表</a>
+                        <!-- Link--><a class="nav-link active" href="./eventList.php">商品列表</a>
                     </li>
                     <li class="nav-item">
                         <!-- Link--><a class="nav-link" href="./addEvent.php">新增活動</a>
