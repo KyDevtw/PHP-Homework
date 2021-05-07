@@ -24,7 +24,7 @@ if ($stmtGetImg->rowCount() > 0) {
     if ($arrImg['eventImg'] !== NULL) {
         // unlink刪除實體檔案,如果找不到檔案會報錯
         // @unlink刪除實體檔案,不會報錯,找到檔案就刪除
-        @unlink("./files/" . $arrImg['eventImg']);
+        @unlink("./images/" . $arrImg['eventImg']);
     }
 }
 
