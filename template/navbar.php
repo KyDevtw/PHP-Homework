@@ -6,12 +6,12 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <!-- Link--><a class="nav-link active" href="./eventList.php">商品列表</a>
+                        <!-- Link--><a class="nav-link active" href="./eventList.php">活動列表</a>
                     </li>
                     <li class="nav-item">
                         <!-- Link--><a class="nav-link" href="./addEvent.php">新增活動</a>
                     </li>
-                    <div class="dropdown-menu mt-3" aria-labelledby="pagesDropdown"><a class="dropdown-item border-0 transition-link" href="../eventList.php">商品列表</a><a class="dropdown-item border-0 transition-link" href="./addEvent.php">Category</a><a class="dropdown-item border-0 transition-link" href="./addEvent.php">新增活動</a></div>
+                    <div class="dropdown-menu mt-3" aria-labelledby="pagesDropdown"><a class="dropdown-item border-0 transition-link" href="../eventList.php">活動列表</a><a class="dropdown-item border-0 transition-link" href="./addEvent.php">Category</a><a class="dropdown-item border-0 transition-link" href="./addEvent.php">新增活動</a></div>
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">

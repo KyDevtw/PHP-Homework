@@ -30,7 +30,7 @@ require_once('./db.inc.php');
                 <div class="container">
                     <div class="row px-4 px-lg-5 py-lg-4 align-items-center">
                         <div class="col-lg-6">
-                            <h1 class="h2 text-uppercase mb-0">Create Event</h1>
+                            <h1 class="h2 text-uppercase mb-0">Edit Event</h1>
                         </div>
 
                     </div>
@@ -59,11 +59,11 @@ require_once('./db.inc.php');
                             <form name="myForm" method="POST" action="./updateEdit.php" enctype="multipart/form-data">
                                 <div class="row">
                                     <div class="col-lg-6 form-group">
-                                        <label class="text-small text-uppercase" for="firstName">活動名稱</label>
+                                        <label class="text-small text-uppercase">活動名稱</label>
                                         <input class="form-control form-control-lg" id="eventName" name="eventName" type="text" value="<?php echo $arr['eventName'] ?>">
                                     </div>
                                     <div class="col-lg-6 form-group">
-                                        <label class="text-small text-uppercase" for="lastName">活動類別</label>
+                                        <label class="text-small text-uppercase">活動類別</label>
                                         <input class="form-control form-control-lg" id="eventClass" name="eventClass" type="text" value="<?php echo $arr['eventClass'] ?>" maxlength="10">
                                     </div>
                                     <div class="col-lg-6 form-group">
@@ -71,23 +71,23 @@ require_once('./db.inc.php');
                                         <input class="form-control form-control-lg" id="eventId" name="eventId" type="text" value="<?php echo $arr['eventId'] ?>">
                                     </div>
                                     <div class="col-lg-6 form-group">
-                                        <label class="text-small text-uppercase" for="phone">活動描述</label>
-                                        <input class="form-control form-control-lg" id="eventDescription" name="eventDescription" type="text" value="<?php echo $arr['eventDescription'] ?>">
+                                        <label class="text-small text-uppercase">活動票價</label>
+                                        <input class="form-control form-control-lg" id="eventPrice" name="eventPrice" type="text" value="<?php echo $arr['eventPrice'] ?>">
                                     </div>
                                     <div class="col-lg-6 form-group">
-                                        <label class="text-small text-uppercase" for="company">開始日期</label>
+                                        <label class="text-small text-uppercase">開始日期</label>
                                         <input class="form-control form-control-lg" id="eventDateStart" name="eventDateStart" type=" text" value="<?php echo $arr['eventDateStart'] ?>">
                                     </div>
                                     <div class="col-lg-6 form-group">
-                                        <label class="text-small text-uppercase" for="company">結束日期</label>
+                                        <label class="text-small text-uppercase">結束日期</label>
                                         <input class="form-control form-control-lg" id="eventDateEnd" name="eventDateEnd" type=" text" value="<?php echo $arr['eventDateEnd'] ?>">
                                     </div>
                                     <div class="col-lg-12 form-group">
-                                        <label class="text-small text-uppercase" for="address">活動票價</label>
-                                        <input class="form-control form-control-lg" id="eventPrice" name="eventPrice" type="text" value="<?php echo $arr['eventPrice'] ?>">
+                                        <label class="text-small text-uppercase">活動描述</label>
+                                        <input class="form-control form-control-lg text-wrap " id="eventDescription" name="eventDescription" type="text" value="<?php echo nl2br($arr['eventDescription']) ?> " style="height: 300px; word-break:normal;">
                                     </div>
                                     <div class=" col-lg-12 form-group">
-                                        <label class="text-small text-uppercase" for="address">上傳圖片</label>
+                                        <label class="text-small text-uppercase">上傳圖片</label>
                                         <?php if ($arr['eventImg'] !== NULL) { ?>
                                             <img class="w200px" src="./images/<?php echo $arr['eventImg'] ?>" />
                                         <?php } ?>

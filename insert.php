@@ -4,8 +4,8 @@ require_once('./db.inc.php'); // 引用資料庫連線
 
 // SQL 敘述
 $sql = "INSERT INTO `event` 
-        (`eventName`, `eventClass`, `eventId`, `eventDescription`, `eventDateStart`, `eventDateEnd`, `eventPrice`, `eventImg`) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        (`eventName`, `eventClass`, `eventId`, `eventDescription`, `eventDateStart`, `eventDateEnd`, `eventPrice`, `eventImg`, `eventCity`,`museumId`,`userId`) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 if ($_FILES["eventImg"]["error"] === 0) {
     // 為上傳檔案命名
@@ -37,7 +37,10 @@ $arr = [
     $_POST['eventDateStart'],
     $_POST['eventDateEnd'],
     $_POST['eventPrice'],
-    $imgFileName
+    $imgFileName,
+    $_POST['eventCity'],
+    $_POST['museumId'],
+    $_POST['userId']
 ];
 
 $stmt = $pdo->prepare($sql);

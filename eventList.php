@@ -102,112 +102,114 @@ $cityFilter = isset($_GET['city']) ? '?city=' . $_GET['city'] . '&'  : "?";
 
 
 
+            <div class="container-fluid">
+                <div class="row">
 
-            <div class="row">
 
-
-                <?php
-                // SQL 敘述
-                $sql = "SELECT `cityName`,`cityId`
+                    <?php
+                    // SQL 敘述
+                    $sql = "SELECT `cityName`,`cityId`
                     FROM `city`";
 
-                // 查詢分頁後的商品資料
-                $stmt = $pdo->query($sql);
+                    // 查詢分頁後的商品資料
+                    $stmt = $pdo->query($sql);
 
-                ?>
+                    ?>
 
-                <div class="dropdown col-12 ml-5 mb-4 dropright">
-                    <button class="btn btn-white border dropdown-toggle text-muted" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        篩選：<?php echo $city ?></button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <?php
-                        // -----------------------------------地點下拉選單
-                        if ($stmt->rowCount() > 0) {
-                            $cityList = $stmt->fetchAll();
-                            for ($i = 0; $i < count($cityList); $i++) {
-                        ?>
-                                <a class="dropdown-item" href="?city=<?php echo $cityList[$i]['cityName'] ?>#EventList"><?php echo $cityList[$i]['cityName'] ?></a>
-                        <?php
+                    <div class="dropdown col-12 ml-5 mb-4 dropright">
+                        <button class="btn btn-white border dropdown-toggle text-muted" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            篩選：<?php echo $city ?></button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <?php
+                            // -----------------------------------地點下拉選單
+                            if ($stmt->rowCount() > 0) {
+                                $cityList = $stmt->fetchAll();
+                                for ($i = 0; $i < count($cityList); $i++) {
+                            ?>
+                                    <a class="dropdown-item" href="?city=<?php echo $cityList[$i]['cityName'] ?>#EventList"><?php echo $cityList[$i]['cityName'] ?></a>
+                            <?php
+                                }
                             }
-                        }
-                        // -----------------------------------地點下拉選單
-                        ?>
+                            // -----------------------------------地點下拉選單
+                            ?>
+                        </div>
                     </div>
-                </div>
+
+                    <!-- 價格篩選 -->
 
 
 
 
-
-                <?php
-                // SQL 敘述
-                $sql = "SELECT `id`, `eventName`, `eventDescription`, `eventPrice`, `eventImg`,`eventId`,`cityName`,`cityId`,`eventCity`
+                    <?php
+                    // SQL 敘述
+                    $sql = "SELECT `id`, `eventName`, `eventDescription`, `eventPrice`, `eventImg`,`eventId`,`cityName`,`cityId`,`eventCity`
                     FROM `event` LEFT JOIN `city`
                     ON `event`.`eventCity` = `city`.`cityId`";
 
-                // -----------------------------------展覽卡片
-                if (!isset($_GET['city'])) {
-                    // 設定繫結值
-                    $sql .= "ORDER BY `id` ASC LIMIT ?, ? ";
-                    $arrParam = [($page - 1) * $numPerPage, $numPerPage];
-                    // 查詢分頁後的商品資料
-                    $stmt = $pdo->prepare($sql);
-                    $stmt->execute($arrParam);
-                    if ($stmt->rowCount() > 0) {
-                        $arr = $stmt->fetchAll();
-                        for ($i = 0; $i < count($arr); $i++) {
-                ?>
-                            <div class="col-md-6 mb-4 mb-md-0 py-3 px-5"><a class="category-item" href="./eventDetail.php?itemId=<?php echo $arr[$i]['eventId'] ?>"><img class="img-fluid" src="./images/<?php echo $arr[$i]['eventImg'] ?>" alt=""><strong><?php echo $arr[$i]['eventName'] ?><a class="text-muted font-weight-normal" href="./edit.php?id=<?php echo $arr[$i]['id']; ?>">編輯 |</a><a class="text-muted font-weight-normal" href="./delete.php?id=<?php echo $arr[$i]['id']; ?>"> 刪除</a></strong></a></div>
-                        <?php
+                    // -----------------------------------展覽卡片
+                    if (!isset($_GET['city'])) {
+                        // 設定繫結值
+                        $sql .= "ORDER BY `id` ASC LIMIT ?, ? ";
+                        $arrParam = [($page - 1) * $numPerPage, $numPerPage];
+                        // 查詢分頁後的商品資料
+                        $stmt = $pdo->prepare($sql);
+                        $stmt->execute($arrParam);
+                        if ($stmt->rowCount() > 0) {
+                            $arr = $stmt->fetchAll();
+                            for ($i = 0; $i < count($arr); $i++) {
+                    ?>
+                                <div class="col-md-6 mb-4 mb-md-0 py-3 px-5"><a class="category-item" href="./eventDetail.php?itemId=<?php echo $arr[$i]['eventId'] ?>"><img class="img-fluid" src="./images/<?php echo $arr[$i]['eventImg'] ?>" alt=""><strong><?php echo $arr[$i]['eventName'] ?><a class="text-muted font-weight-normal" href="./edit.php?id=<?php echo $arr[$i]['id']; ?>">編輯 |</a><a class="text-muted font-weight-normal" href="./delete.php?id=<?php echo $arr[$i]['id']; ?>"> 刪除</a></strong></a></div>
+                            <?php
 
+                            }
+                        } else {
+
+
+                            ?>
+
+                            <?php
                         }
                     } else {
-
-
-                        ?>
-
-                        <?php
-                    }
-                } else {
-                    // 設定繫結值
-                    $sql .= "WHERE `cityName` = ? ORDER BY `id` ASC LIMIT ?, ? ";
-                    $arrParam = [$_GET['city'], ($page - 1) * $numPerPage, $numPerPage];
-                    // 查詢分頁後的商品資料
-                    $stmt = $pdo->prepare($sql);
-                    $stmt->execute($arrParam);
-                    if ($stmt->rowCount() > 0) {
-                        $arr = $stmt->fetchAll();
-                        for ($i = 0; $i < count($arr); $i++) {
-                        ?>
-                            <div class="col-md-6 mb-4 mb-md-0 py-3 px-5"><a class="category-item" href="./eventDetail.php?itemId=<?php echo $arr[$i]['eventId'] ?>"><img class="img-fluid" src="./images/<?php echo $arr[$i]['eventImg'] ?>" alt=""><strong><?php echo $arr[$i]['eventName'] ?><a class="text-muted font-weight-normal" href="./edit.php?id=<?php echo $arr[$i]['id']; ?>">編輯 |</a><a class="text-muted font-weight-normal" href="./delete.php?id=<?php echo $arr[$i]['id']; ?>"> 刪除</a></strong></a></div>
-                        <?php
-                        }
-                    } else {
-                        ?>
-                        <div class="modal-show mx-auto mb-5" tabindex="-1" role="dialog">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">很抱歉，您選擇的縣市目前暫無展覽</h5>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>請聯絡主辦單位確認展覽地點，或回到商品列表重新瀏覽。</p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <a href="./eventList.php"><button type="button" class="btn btn-secondary">回到商品列表</button></a>
+                        // 設定繫結值
+                        $sql .= "WHERE `cityName` = ? ORDER BY `id` ASC LIMIT ?, ? ";
+                        $arrParam = [$_GET['city'], ($page - 1) * $numPerPage, $numPerPage];
+                        // 查詢分頁後的商品資料
+                        $stmt = $pdo->prepare($sql);
+                        $stmt->execute($arrParam);
+                        if ($stmt->rowCount() > 0) {
+                            $arr = $stmt->fetchAll();
+                            for ($i = 0; $i < count($arr); $i++) {
+                            ?>
+                                <div class="col-md-6 mb-4 mb-md-0 py-3 px-5"><a class="category-item" href="./eventDetail.php?itemId=<?php echo $arr[$i]['eventId'] ?>"><img class="img-fluid" src="./images/<?php echo $arr[$i]['eventImg'] ?>" alt=""><strong><?php echo $arr[$i]['eventName'] ?><a class="text-muted font-weight-normal" href="./edit.php?id=<?php echo $arr[$i]['id']; ?>">編輯 |</a><a class="text-muted font-weight-normal" href="./delete.php?id=<?php echo $arr[$i]['id']; ?>"> 刪除</a></strong></a></div>
+                            <?php
+                            }
+                        } else {
+                            ?>
+                            <div class="modal-show mx-auto mb-5" tabindex="-1" role="dialog">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">很抱歉，您選擇的縣市目前暫無展覽</h5>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>請聯絡主辦單位確認展覽地點，或回到展覽列表重新瀏覽。</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="./eventList.php"><button type="button" class="btn btn-secondary">回到商品列表</button></a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        <?php
+                        }
+                        // -----------------------------------展覽卡片
+                        ?>
+
                     <?php
                     }
-                    // -----------------------------------展覽卡片
                     ?>
-
-                <?php
-                }
-                ?>
+                </div>
             </div>
 
             <!-- 分頁切換 -->
@@ -285,5 +287,7 @@ $cityFilter = isset($_GET['city']) ? '?city=' . $_GET['city'] . '&'  : "?";
             <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     </div>
+
+    <body>
 
 </html>

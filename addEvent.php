@@ -43,11 +43,11 @@ require_once('./db.inc.php');
                         <form name="myForm" method="POST" action="./insert.php" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col-lg-6 form-group">
-                                    <label class="text-small text-uppercase" for="firstName">活動名稱</label>
+                                    <label class="text-small text-uppercase">活動名稱</label>
                                     <input class="form-control form-control-lg" id="eventName" name="eventName" type="text" placeholder="輸入名稱">
                                 </div>
                                 <div class="col-lg-6 form-group">
-                                    <label class="text-small text-uppercase" for="lastName">活動類別</label>
+                                    <label class="text-small text-uppercase">活動類別</label>
                                     <input class="form-control form-control-lg" id="eventClass" name="eventClass" type="text" placeholder="類別C/D">
                                 </div>
                                 <div class="col-lg-6 form-group">
@@ -55,25 +55,54 @@ require_once('./db.inc.php');
                                     <input class="form-control form-control-lg" id="eventId" name="eventId" type="text" placeholder="三碼編號，展覽0開頭，工作坊1開頭">
                                 </div>
                                 <div class="col-lg-6 form-group">
-                                    <label class="text-small text-uppercase" for="phone">活動描述</label>
-                                    <input class="form-control form-control-lg" id="eventDescription" name="eventDescription" type="text" placeholder="描述活動">
+                                    <label class="text-small text-uppercase">活動票價</label>
+                                    <input class="form-control form-control-lg" id="eventPrice" name="eventPrice" type="text" placeholder="輸入整數值不含字元">
                                 </div>
                                 <div class="col-lg-6 form-group">
-                                    <label class="text-small text-uppercase" for="company">開始日期</label>
+                                    <label class="text-small text-uppercase">開始日期</label>
                                     <input class="form-control form-control-lg" id="eventDateStart" name="eventDateStart" type=" text" placeholder="yyyy-mm-dd">
                                 </div>
                                 <div class="col-lg-6 form-group">
-                                    <label class="text-small text-uppercase" for="company">開始日期</label>
+                                    <label class="text-small text-uppercase">開始日期</label>
                                     <input class="form-control form-control-lg" id="eventDateEnd" name="eventDateEnd" type=" text" placeholder="yyyy-mm-dd">
                                 </div>
-                                <div class="col-lg-12 form-group">
-                                    <label class="text-small text-uppercase" for="address">活動票價</label>
-                                    <input class="form-control form-control-lg" id="eventPrice" name="eventPrice" type="text" placeholder="輸入整數值不含字元">
+                                <div class="col-lg-6 form-group">
+                                    <label class="text-small text-uppercase">舉辦縣市</label>
+                                    <select class=" form-control form-control-lg text-small text-muted" type="button" id="eventCity" name="eventCity" style="height: 42px;">
+                                        <option selected>選擇城市</option>
+                                        <?php
+                                        // SQL 敘述
+                                        $sql = "SELECT `cityName`,`cityId`
+                                                FROM `city`";
+                                        // 查詢分頁後的商品資料
+                                        $stmt = $pdo->query($sql);
+                                        if ($stmt->rowCount() > 0) {
+                                            $cityList = $stmt->fetchAll();
+                                            for ($i = 0; $i < count($cityList); $i++) {
+                                        ?>
+                                                <option value="<?php echo $cityList[$i]['cityId'] ?>"><?php echo $cityList[$i]['cityName'] ?></option>
+                                        <?php
+                                            }
+                                        }
+                                        ?>
+                                    </select>
                                 </div>
+
+                                <div class="col-lg-6 form-group">
+                                    <label class="text-small text-uppercase">舉辦館別</label>
+
+                                    <input class="form-control form-control-lg" id="museumId" name="museumId" type="text" placeholder="舉辦博物館名稱">
+                                </div>
+                                <div class="col-lg-12 form-group">
+                                    <label class="text-small text-uppercase">活動描述</label>
+                                    <input class="form-control form-control-lg" id="eventDescription" name="eventDescription" type="text" placeholder="描述活動" style="height: 300px; word-break:normal;">
+                                </div>
+
                                 <div class="col-lg-12 form-group">
                                     <label class="text-small text-uppercase" for="address">上傳圖片</label>
                                     <input class="form-control form-control-lg" type="file" name="eventImg">
                                 </div>
+                                    <input type="hidden" name="userId" value="<?php echo $_SESSION['username'] ?>">
 
                                 <div class="col-lg-12 form-group">
                                     <input class="btn btn-dark" type="submit" name="smb" value="建立">
