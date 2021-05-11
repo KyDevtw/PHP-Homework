@@ -94,7 +94,7 @@ $cityFilter = isset($_GET['city']) ? '?city=' . $_GET['city'] . '&'  : "?";
         </div>
         <span id="EventList"></span>
         <!-- CATEGORIES SECTION-->
-        <section class="py-5">
+        <section>
             <header class="text-center">
                 <p class="small text-muted small text-uppercase mb-1">一同與藝術，共襄盛舉</p>
                 <h2 class="h5 text-uppercase mb-4">活動清單</h2>
@@ -136,7 +136,7 @@ $cityFilter = isset($_GET['city']) ? '?city=' . $_GET['city'] . '&'  : "?";
                     </div>
 
                     <!-- 價格篩選 -->
-                    
+
                     <!-- <h6 class="col-1 text-uppercase mb-4 text-muted">票價範圍</h6>
                     <div class="col-3 price-range pt-4 mb-5 text-muted">
                         <div id="range"></div>
@@ -297,6 +297,7 @@ $cityFilter = isset($_GET['city']) ? '?city=' . $_GET['city'] . '&'  : "?";
             <?php require_once './template/delayeffect.php'; ?>
             <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+        </section>
     </div>
 
     <!-- 價格標籤-->

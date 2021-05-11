@@ -99,21 +99,23 @@
         <h2 class="h5 text-uppercase mb-4">輸入帳號密碼</h2>
         <div class="row">
           <div class="col-lg-8">
+            <!-- form表單 -->
             <form name="myForm" method="post" action="./login.php">
               <div class="row">
                 <div class="col-lg-6 form-group">
-                  <label class="text-small text-uppercase" for="firstName">帳號</label>
-                  <input class="form-control form-control-lg" name="username" id="firstName" type="text" placeholder="請輸入帳號">
+                  <label class="text-small text-uppercase">帳號</label>
+                  <input class="form-control form-control-lg" name="username" id="username" type="text" placeholder="請輸入帳號">
                 </div>
                 <div class="col-lg-6 form-group">
-                  <label class="text-small text-uppercase" for="lastName">密碼</label>
-                  <input class="form-control form-control-lg" name="pwd" id="lastName" type="text" placeholder="請輸入密碼">
+                  <label class="text-small text-uppercase">密碼</label>
+                  <input class="form-control form-control-lg" name="pwd" id="pwd" type="text" placeholder="請輸入密碼">
                 </div>
                 <div class="col-lg-12 form-group">
                   <input class="btn btn-dark" type="submit" value="登入">
                 </div>
               </div>
             </form>
+            <!-- form表單 -->
           </div>
         </div>
       </section>
