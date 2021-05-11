@@ -44,7 +44,7 @@ $page = $page > $totalPages ? $totalPages : $page;
     <header class="header bg-white">
       <div class="container px-0 px-lg-3">
         <nav class="navbar navbar-expand-lg navbar-light py-3 px-lg-0"><a class="navbar-brand" href="index.php"><span class="font-weight-bold text-uppercase text-dark">ARTITIED</span></a>
-          
+
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
               <li class="nav-item">
@@ -138,16 +138,21 @@ $page = $page > $totalPages ? $totalPages : $page;
       <nav class="mb-5" aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
           <li class="page-item">
-            <a class="page-link" href="?page=<?php echo (int)$_GET['page'] - 1 ?> #EventList" tabindex="-1">Previous</a>
-            <?php for ($i = 1; $i <= $totalPages; $i++) { ?>
-          <li class="page-item">
-            <a class="page-link" href="?page=<?php echo $i ?> #EventList">
-              <?php echo $i ?>
-            </a>
+            <a class="page-link" href="?page=1#EventList" >第一頁</a>
           </li>
-        <?php } ?>
-        <a class="page-link" href="?page=<?php echo (int)$_GET['page'] + 1 ?> #EventList">Next</a>
-        </li>
+
+          <?php for ($i = 1; $i <= $totalPages; $i++) { ?>
+            <li class="page-item">
+              <a class="page-link" href="?page=<?php echo $i ?> #EventList">
+                <?php echo $i ?>
+              </a>
+            </li>
+          <?php } ?>
+
+          <li class="page-item">
+            <a class="page-link" href="?page=<?php echo (int)$totalPages ?> #EventList">最底頁</a>
+          </li>
+
         </ul>
       </nav>
 

@@ -136,6 +136,17 @@ $cityFilter = isset($_GET['city']) ? '?city=' . $_GET['city'] . '&'  : "?";
                     </div>
 
                     <!-- 價格篩選 -->
+                    
+                    <!-- <h6 class="col-1 text-uppercase mb-4 text-muted">票價範圍</h6>
+                    <div class="col-3 price-range pt-4 mb-5 text-muted">
+                        <div id="range"></div>
+                        <div class="row pt-2">
+                            <div class="col-6"><strong class="small font-weight-bold text-uppercase">From</strong></div>
+                            <div class="col-6 text-right"><strong class="small font-weight-bold text-uppercase">To</strong></div>
+                        </div>
+                    </div> -->
+
+                    <!-- 價格篩選 -->
 
 
 
@@ -287,6 +298,33 @@ $cityFilter = isset($_GET['city']) ? '?city=' . $_GET['city'] . '&'  : "?";
             <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     </div>
+
+    <!-- 價格標籤-->
+    <!-- <script>
+        var range = document.getElementById('range');
+        noUiSlider.create(range, {
+            range: {
+                'min': 0,
+                'max': 2000
+            },
+            step: 5,
+            start: [100, 1000],
+            margin: 300,
+            connect: true,
+            direction: 'ltr',
+            orientation: 'horizontal',
+            behaviour: 'tap-drag',
+            tooltips: true,
+            format: {
+                to: function(value) {
+                    return '$' + value;
+                },
+                from: function(value) {
+                    return value.replace('', '');
+                }
+            }
+        });
+    </script> -->
 
     <body>
 
