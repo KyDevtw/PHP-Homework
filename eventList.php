@@ -95,14 +95,14 @@ $cityFilter = isset($_GET['city']) ? '?city=' . $_GET['city'] . '&'  : "?";
         <span id="EventList"></span>
         <!-- CATEGORIES SECTION-->
         <section>
-            <header class="text-center">
+            <header class="text-center mt-5">
                 <p class="small text-muted small text-uppercase mb-1">一同與藝術，共襄盛舉</p>
                 <h2 class="h5 text-uppercase mb-4">活動清單</h2>
             </header>
 
 
 
-            <div class="container-fluid">
+            <div class="container">
                 <div class="row">
 
 
@@ -116,7 +116,7 @@ $cityFilter = isset($_GET['city']) ? '?city=' . $_GET['city'] . '&'  : "?";
 
                     ?>
 
-                    <div class="dropdown col-12 ml-5 mb-4 dropright">
+                    <div class="dropdown col-12 mb-4 dropright">
                         <button class="btn btn-white border dropdown-toggle text-muted" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             篩選：<?php echo $city ?></button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -169,7 +169,7 @@ $cityFilter = isset($_GET['city']) ? '?city=' . $_GET['city'] . '&'  : "?";
                             $arr = $stmt->fetchAll();
                             for ($i = 0; $i < count($arr); $i++) {
                     ?>
-                                <div class="col-md-6 mb-4 mb-md-0 py-3 px-5"><a class="category-item" href="./eventDetail.php?itemId=<?php echo $arr[$i]['eventId'] ?>"><img class="img-fluid" src="./images/<?php echo $arr[$i]['eventImg'] ?>" alt=""><strong><?php echo $arr[$i]['eventName'] ?><a class="text-muted font-weight-normal" href="./edit.php?id=<?php echo $arr[$i]['id']; ?>">編輯 |</a><a class="text-muted font-weight-normal" href="./delete.php?id=<?php echo $arr[$i]['id']; ?>"> 刪除</a></strong></a></div>
+                                <div class="col-md-6 mb-4 mb-md-0 py-3"><a class="category-item" href="./eventDetail.php?itemId=<?php echo $arr[$i]['eventId'] ?>"><img class="img-fluid" src="./images/<?php echo $arr[$i]['eventImg'] ?>" alt=""><strong><?php echo $arr[$i]['eventName'] ?><a class="text-muted font-weight-normal" href="./edit.php?id=<?php echo $arr[$i]['id']; ?>">編輯 |</a><a class="text-muted font-weight-normal" href="./delete.php?id=<?php echo $arr[$i]['id']; ?>"> 刪除</a></strong></a></div>
                             <?php
 
                             }
@@ -224,7 +224,7 @@ $cityFilter = isset($_GET['city']) ? '?city=' . $_GET['city'] . '&'  : "?";
             </div>
 
             <!-- 分頁切換 -->
-            <nav class="mb-5" aria-label="Page navigation example">
+            <nav class="my-5" aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
                     <?php
                     if ($stmt->rowCount() > 3) {

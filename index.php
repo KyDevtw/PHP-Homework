@@ -97,7 +97,7 @@ $page = $page > $totalPages ? $totalPages : $page;
     </div>
     <span id="EventList"></span>
     <!-- CATEGORIES SECTION-->
-    <section class="py-5">
+    <section class="pt-5">
       <header class="text-center">
         <p class="small text-muted small text-uppercase mb-1">一同與藝術，共襄盛舉</p>
         <h2 class="h5 text-uppercase mb-4">活動清單</h2>
@@ -107,29 +107,29 @@ $page = $page > $totalPages ? $totalPages : $page;
 
 
       <!-- 測試區 -->
-      <div class="row">
-        <?php
-        // SQL 敘述
-        $sql = "SELECT `id`, `eventName`, `eventDescription`, `eventPrice`, `eventImg`,`eventId`
-                FROM `event` 
-                ORDER BY `id` ASC
-                LIMIT ?, ? ";
-        // 設定繫結值
-        $arrParam = [($page - 1) * $numPerPage, $numPerPage];
-
-        // 查詢分頁後的商品資料
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute($arrParam);
-
-        if ($stmt->rowCount() > 0) {
-          $arr = $stmt->fetchAll();
-          for ($i = 0; $i < count($arr); $i++) {
-        ?>
-            <div class="col-md-6 mb-4 mb-md-0 py-3 px-5"><span class="category-item" href="./eventDetail.php?itemId=<?php echo $arr[$i]['eventId'] ?>"><img class="img-fluid" src="./images/<?php echo $arr[$i]['eventImg'] ?>" alt=""><strong><?php echo $arr[$i]['eventName'] ?></strong></span></div>
-        <?php
+      <div class="container">
+        <div class="row">
+          <?php
+          // SQL 敘述
+          $sql = "SELECT `id`, `eventName`, `eventDescription`, `eventPrice`, `eventImg`,`eventId`
+                  FROM `event`
+                  ORDER BY `id` ASC
+                  LIMIT ?, ? ";
+          // 設定繫結值
+          $arrParam = [($page - 1) * $numPerPage, $numPerPage];
+          // 查詢分頁後的商品資料
+          $stmt = $pdo->prepare($sql);
+          $stmt->execute($arrParam);
+          if ($stmt->rowCount() > 0) {
+            $arr = $stmt->fetchAll();
+            for ($i = 0; $i < count($arr); $i++) {
+          ?>
+              <div class="col-md-6 mb-4 mb-md-0 py-3"><span class="category-item" href="./eventDetail.php?itemId=<?php echo $arr[$i]['eventId'] ?>"><img class="img-fluid" src="./images/<?php echo $arr[$i]['eventImg'] ?>" alt=""><strong><?php echo $arr[$i]['eventName'] ?></strong></span></div>
+          <?php
+            }
           }
-        }
-        ?>
+          ?>
+        </div>
       </div>
       <!-- 測試區 -->
 
@@ -195,6 +195,7 @@ $page = $page > $totalPages ? $totalPages : $page;
       </script>
       <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    </section>
   </div>
 </body>
 
