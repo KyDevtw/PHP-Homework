@@ -8,7 +8,7 @@ require_once('./db.inc.php');
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Boutique | Ecommerce bootstrap template</title>
+    <title>ARTDDICT</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
@@ -102,7 +102,7 @@ require_once('./db.inc.php');
                                     <label class="text-small text-uppercase" for="address">上傳圖片</label>
                                     <input class="form-control form-control-lg" type="file" name="eventImg">
                                 </div>
-                                    <input type="hidden" name="userId" value="<?php echo $_SESSION['username'] ?>">
+                                <input type="hidden" name="userId" value="<?php echo $_SESSION['username'] ?>">
 
                                 <div class="col-lg-12 form-group">
                                     <input class="btn btn-dark" type="submit" name="smb" value="建立">
