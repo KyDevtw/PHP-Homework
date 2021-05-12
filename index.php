@@ -29,7 +29,7 @@ $page = $page > $totalPages ? $totalPages : $page;
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>ARTITIED</title>
+  <title>ARTDDICT</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="all,follow">
@@ -138,7 +138,7 @@ $page = $page > $totalPages ? $totalPages : $page;
       <nav class="mb-5" aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
           <li class="page-item">
-            <a class="page-link" href="?page=1#EventList" >第一頁</a>
+            <a class="page-link" href="?page=1#EventList">第一頁</a>
           </li>
 
           <?php for ($i = 1; $i <= $totalPages; $i++) { ?>
